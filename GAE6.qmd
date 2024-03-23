@@ -79,7 +79,7 @@ To measure color, the researchers used Adobe Photoshop CS (version 8.01, Adobe I
 
 ### Statistical Methods:
 
-I tested for differences among the un-injected control (Control), the injected but uninfected aphids (Uninfected), and the injected and infected aphids (Infected) by analysis of variance (ANOVA) using the lm() function from R [@base] and the Anova() function from the car package [@car]. All data manipulation and graphical results were computed using packages provided by the tidyverse metapackage [@tidyverse] and all tabular results were produced using the kbl() function from the kableExtra package [@kableExtra].
+I tested for differences among the un-injected control (Control), the injected but uninfected aphids (Uninfected), and the injected and infected aphids (Infected) by analysis of variance (ANOVA) using the lm() function from R [@base] and the Anova() function from the car package [@car]. I also created a set of orthogonal contrasts. These are used with ANOVA tests in order to show us if there is an independent linear relationship between selected groups. The first test compared the control to both the infected and uninfected while the second one compared the infected to the uninfected. I also produced a Tukey comparison, which allowed for me to compare the means between all the groups. All data manipulation and graphical results were computed using packages provided by the tidyverse metapackage [@tidyverse] and all tabular results were produced using the kbl() function from the kableExtra package [@kableExtra].
 
 ## Results:
 
@@ -121,8 +121,6 @@ kbl(
   )
 ```
 
-## Logical orthogonal contrast 1:
-
 ```{r}
 #| label: fig-Aphids
 #| fig-cap: "Color change as measured by hue angle for pea aphids (*Acyrthosiphon pisum*) that were infected with *Rickettsiella* compared to uninfected and control aphids."
@@ -157,7 +155,7 @@ ggplot(aphids)+
   )
 ```
 
-## Logical orthogonal contrast 2:
+## Logical orthogonal contrasts:
 
 ```{r}
 #| label: tbl-Constrast
