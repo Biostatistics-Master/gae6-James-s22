@@ -121,6 +121,8 @@ kbl(
   )
 ```
 
+## Logical orthogonal contrast 1:
+
 ```{r}
 #| label: fig-Aphids
 #| fig-cap: "Color change as measured by hue angle for pea aphids (*Acyrthosiphon pisum*) that were infected with *Rickettsiella* compared to uninfected and control aphids."
@@ -153,7 +155,70 @@ ggplot(aphids)+
   theme(
     legend.position = "none"
   )
+```
 
+## Logical orthogonal contrast 2:
+
+```{r}
+#| label: tbl-Constrast
+#| tbl-cap: "Planned linear comparisson of means" 
+
+aphidMeans <- emmeans(aphidMod, "Treatment")
+
+aphidCont <- tidy(contrast(aphidMeans, 
+                     method = list(
+                       #                        C     U     I 
+                       'L1: C vs U,I '    = c(  2,    -1,   -1 ),
+                       'L2: U vs I'       = c(  0,    -1,    1 )
+                       
+           ),
+           adjust = "none"
+         ))[,-c(1,3)]
+
+aphidCont$p.value <- format.pval(
+  aphidCont$p.value,
+  digits = 3,
+  eps = 0.001,
+  na.form = ''
+)
+
+kbl(
+  aphidCont,
+  col.names = c(
+    "Contrast",
+    "Estimate",
+    "SE",
+    "df",
+    "t",
+    "P"
+    ),
+  digits = c(0,3,3,0,3,3),
+  align = "r",
+  table.attr = 'data-quarto-disable-processing="true"'
+  ) |>
+  kable_classic()
+```
+
+## Tukey Test:
+
+```{r}
+#| label: tbl-aphidMeans
+#| tbl-cap: "Pairwise comparisons of group means: mean differences with Tukey adjusted P-values."
+
+aphidMeans <- emmeans(aphidMod, specs = "Treatment")
+
+
+
+kbl(
+  pairs(aphidMeans),
+  digits = 4,
+  table.attr = 'data-quarto-disable-processing="true"'
+  ) |>
+  kable_classic(full = FALSE) |>
+  column_spec(
+    column = 1:6,
+    width = "5em"
+  )
 ```
 
 ## References:
